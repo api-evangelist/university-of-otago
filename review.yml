@@ -1,0 +1,45 @@
+---
+name: University of Otago
+description: University of Otago public developer/API footprint review for APIs.json cataloging.
+url: https://raw.githubusercontent.com/api-evangelist/university-of-otago/refs/heads/main/review.yml
+created: '2026-06-03'
+modified: '2026-06-03'
+reviews:
+  - date: '2026-06-03'
+    rating: 2
+    summary: >-
+      University of Otago has no dedicated public developer portal and no documented
+      public API program. The most concrete machine interface verified live is the
+      OUR Archive Esploro OAI-PMH endpoint, which resolves and returns valid OAI XML
+      but currently responds with error_code 21 (unauthorized / public harvesting not
+      enabled). Identity is handled via the Tuakiri NZ Access Federation (SAML 2.0 /
+      Shibboleth), which is federation infrastructure rather than a self-service API.
+      The main website returns 403 to automated bots but is a valid live site. A GitHub
+      org named "UniversityofOtago" exists but has zero public repos and is not verifiably
+      official, so it is not catalogued. No endpoints were fabricated; everything below
+      was probed directly.
+    endpoints:
+      - url: https://www.otago.ac.nz/
+        status: 403
+        note: Official website; live in browsers but returns 403 to scripted requests (bot filtering).
+      - url: https://ourarchive.otago.ac.nz/
+        status: 200
+        note: OUR Archive research repository home (Ex Libris / Clarivate Esploro).
+      - url: https://ourarchive.otago.ac.nz/view/oai/64OTAGO_INST/request?verb=Identify
+        status: 200
+        note: Esploro OAI-PMH endpoint resolves but returns OAI error_code 21 (unauthorized / harvesting not enabled).
+      - url: https://ourarchive.otago.ac.nz/esploro/?institution=64OTAGO_INST
+        status: 200
+        note: OUR Archive Esploro research portal (human UI).
+      - url: https://ask.otago.ac.nz/
+        status: 200
+        note: AskOtago service portal; documents Tuakiri federated identity for staff/students.
+      - url: https://www.linkedin.com/school/university-of-otago/
+        status: 999
+        note: Official LinkedIn school page; 999 is LinkedIn's standard anti-bot response, page is valid.
+      - url: https://github.com/UniversityofOtago
+        status: 200
+        note: GitHub org with this name exists but has no public repos and is not verifiably official; not catalogued.
+      - url: https://ourarchive.otago.ac.nz/oai?verb=Identify
+        status: 404
+        note: Legacy DSpace OAI path no longer valid after migration to Esploro.
