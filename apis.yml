@@ -84,6 +84,10 @@ common:
     url: finops/university-of-otago-finops.yml
   - type: Review
     url: review.yml
+  - type: Blog
+    url: blogs/blogs.json
+  - type: JSONLD
+    url: json-ld/university-of-otago-context.jsonld
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

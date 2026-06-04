@@ -1,0 +1,42 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "otago": "https://www.otago.ac.nz/ns#",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "@vocab": "https://www.otago.ac.nz/ns#",
+    "name": "schema:name",
+    "description": "schema:description",
+    "url": "schema:url",
+    "logo": "schema:logo",
+    "foundingDate": "schema:foundingDate",
+    "location": "schema:location",
+    "sameAs": "schema:sameAs",
+    "Organization": "schema:CollegeOrUniversity",
+    "repository": {
+      "@id": "otago:repository",
+      "@type": "@id"
+    },
+    "identityProvider": {
+      "@id": "otago:identityProvider",
+      "@type": "@id"
+    },
+    "oaiEndpoint": {
+      "@id": "otago:oaiEndpoint",
+      "@type": "@id"
+    }
+  },
+  "@type": "Organization",
+  "@id": "https://www.otago.ac.nz/",
+  "name": "University of Otago",
+  "description": "New Zealand's oldest university, founded in 1869 and based in Dunedin. Its public machine interfaces include OUR Archive (an Esploro OAI-PMH research repository) and a Tuakiri SAML 2.0 / Shibboleth identity provider.",
+  "url": "https://www.otago.ac.nz/",
+  "foundingDate": "1869",
+  "location": "Dunedin, New Zealand",
+  "sameAs": [
+    "https://www.linkedin.com/school/university-of-otago/",
+    "https://ourarchive.otago.ac.nz/"
+  ],
+  "repository": "https://ourarchive.otago.ac.nz/",
+  "oaiEndpoint": "https://ourarchive.otago.ac.nz/view/oai/64OTAGO_INST/request",
+  "identityProvider": "https://www.reannz.co.nz/products-and-services/tuakiri/technical-information"
+}
