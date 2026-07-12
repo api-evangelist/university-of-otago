@@ -68,6 +68,8 @@ apis:
       - type: Authentication
         url: https://ask.otago.ac.nz/knowledgebase/article/KA-10002700/en-us
 common:
+  - type: DomainSecurity
+    url: security/university-of-otago-domain-security.yml
   - type: Website
     url: https://www.otago.ac.nz/
   - type: Repository
