@@ -8,9 +8,9 @@
       "saved": 0,
       "method": "none",
       "note": "apis.yml lists no external Blog/RSS feed URL (only the local blogs.json output). HTTP 403 Forbidden this run.",
-      "error": "fetch_failed: HTTPError"
+      "error": "parse_failed"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-07-11T11:43:46Z"
+  "fetched": "2026-08-01T15:38:58Z"
 }
