@@ -1,118 +1,379 @@
 ---
 aid: university-of-otago
 name: University of Otago
+x-type: university
+x-category: Public Research University
 description: >-
-  The University of Otago is New Zealand's oldest university, founded in 1869 and
-  based in Dunedin, ranked #214 in the QS World University Rankings 2025. Its public
-  developer and API footprint is limited and infrastructure-oriented rather than
-  product-oriented: there is no dedicated public developer portal or documented public
-  API program. The most concrete machine interface is OUR Archive (Otago University
-  Research Archive), the institutional research repository now running on Ex Libris /
-  Clarivate Esploro, which exposes a standards-based OAI-PMH endpoint (currently not
-  publicly authorized for harvesting). Identity is provided through the Tuakiri NZ
-  Access Federation using SAML 2.0 / Shibboleth single sign-on. Most administrative,
-  student, course, and timetable systems are gated behind institutional credentials
-  or the campus network and are not openly documented.
+  The University of Otago — Te Whare Wānanga o Ōtākou — is New Zealand's oldest university,
+  founded in 1869 in Dunedin and registered as https://ror.org/01jmxt844. It operates no public
+  developer program: there is no developer portal, no API reference, no open-data portal and no
+  OpenAPI published under any otago.ac.nz path found in this run. Exactly ONE machine-readable
+  surface is both on Otago's own domain and operated by Otago — the self-hosted WordPress REST
+  API behind its AI guidance site at artificialintelligence.otago.ac.nz, which serves a 144-route
+  discovery document and published content keyless. Everything else that carries an Otago name is
+  a vendor contract running under it: OUR Archive at ourarchive.otago.ac.nz is an Ex Libris /
+  Clarivate Esploro tenancy (the hostname is Otago's, the CNAME goes to
+  ap02.esploro.exlibrisgroup.com) whose OAI-PMH endpoint is deployed but refuses public
+  harvesting with error_code 21; blackboard.otago.ac.nz is an Anthology Blackboard Learn tenancy
+  running release 4000.21.0 whose REST API answers 401 to everything but a version check; and
+  Otago's SAML 2.0 identity is published in the signed Tuakiri NZ Access Federation metadata
+  under entityID https://idp.otago.ac.nz/idp/shibboleth while every one of its SSO bindings
+  actually resolves to REANNZ's Tuakiri Hosted Login service. Otago's scholarly identifier
+  registrations are real and institution-attributed — DataCite provider otagouni with 334 DOIs in
+  OUR Archive, and Crossref member 4843 "University of Otago Library" holding prefix 10.11157
+  with 2,537 DOIs. This profile is deliberately thin because the footprint is thin, and the
+  surfaces that exist are recorded under the operator that actually runs them.
 type: Index
 deliveryModel:
   model: saas
   open_source: false
-  commercial: true
-  callable_host: false
-  label: Hosted service · you call their endpoint
-  confidence: medium
+  commercial: false
+  callable_host: true
+  label: One self-operated content API · everything else a vendor tenancy
+  confidence: high
   source:
-  - pricing
-  generated: '2026-08-28'
-  method: derived
+  - probed
+  generated: '2026-08-30'
+  method: probed
 accessModel:
   pricing: free
-  onboarding: unknown
+  onboarding: none
   trial: false
-  try_now: false
-  public: false
-  label: Free
-  confidence: medium
+  try_now: true
+  public: partial
+  label: Free · one keyless read surface · repository and LMS APIs gated
+  confidence: high
   source:
-  - plans
-  generated: '2026-07-22'
-  method: derived
+  - probed
+  generated: '2026-08-30'
+  method: probed
 position: Consumer
-access: 3rd-Party
+access: Public
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/university-of-otago.png
 url: https://raw.githubusercontent.com/api-evangelist/university-of-otago/refs/heads/main/apis.yml
 tags:
-  - Education
-  - Higher Education
   - University
+  - Higher Education
+  - Education
+  - New Zealand
   - Research
+  - Research Repository
   - Open Access
   - Repository
-  - Identity
-  - New Zealand
+  - Identity Federation
+  - Shibboleth
+  - SAML
+  - OAI-PMH
+  - Learning Management
+  - DataCite
+  - Crossref
+  - Metadata
+  - Library
 created: '2026-06-03'
-modified: '2026-06-03'
-specificationVersion: '0.23'
+modified: '2026-08-30'
+x-ror: https://ror.org/01jmxt844
+x-datacite-provider: otagouni
+x-crossref-member: '4843'
+x-doi-prefix: '10.11157'
+x-saml-entity-id: https://idp.otago.ac.nz/idp/shibboleth
+x-esploro-institution: 64OTAGO_INST
+artifacts:
+  - type: Conformance
+    url: conformance/university-of-otago-education-standards.yml
+  - type: Authentication
+    url: authentication/university-of-otago-authentication.yml
+  - type: Vocabulary
+    url: vocabulary/university-of-otago-vocabulary.yml
+  - type: Examples
+    url: examples/university-of-otago-examples.yml
+x-enrichment:
+  pipeline: pipeline-university.md
+  run: '2026-08-30'
+  note: >-
+    Re-profiled under the operator axis. This repo held no vendor OpenAPI to remove — it never
+    carried the Figshare contract that contaminated the top of this cohort, and no artifact was
+    deleted in this run. What it carried instead was a MISATTRIBUTION THE HOST RULE CANNOT SEE:
+    the OUR Archive OAI-PMH surface was recorded as institution-operated because
+    ourarchive.otago.ac.nz sits under otago.ac.nz, and the audit agreed with it on hostname
+    alone. DNS resolution shows the host CNAMEs to ap02.esploro.exlibrisgroup.com — it is an Ex
+    Libris Esploro tenancy, the same shape as scholarbank.nus.edu.sg. It is relabelled
+    institution -> tenant. The Tuakiri entry, previously host-unattributable, is resolved the
+    same way: Otago owns the entityID, REANNZ operates the IdP. Three surfaces the June profile
+    missed were found and added — the self-hosted WordPress REST API at
+    artificialintelligence.otago.ac.nz (the only genuinely institution-operated machine-readable
+    surface Otago has), the Blackboard Learn tenancy, and the DataCite/Crossref registrations.
+    Four artifacts were built from live probes. Two soft-200s were caught and are recorded as
+    non-finds rather than as surfaces: /esploro/openapi returns the Esploro SPA shell, and
+    Blackboard's /.well-known/openid-configuration returns a login page, so no LTI conformance is
+    claimed. otago.figshare.com answers 202 with an empty body and is NOT asserted as a tenancy.
+    Expect this repo's score to move on the strength of the added surfaces, not on any vendor
+    contract: only one of the six recorded conformance/surface facts is Otago's own engineering.
+x-coverage:
+  state: covered
+  reason: covered
+  detail: >-
+    Otago's programmable footprint was probed directly and it is small but real. One surface is
+    genuinely institution-operated and keyless: the WordPress REST API at
+    artificialintelligence.otago.ac.nz returns a 200,783-byte discovery document listing 144
+    routes across six namespaces with an empty authentication array, and /wp-json/wp/v2/pages
+    serves content anonymously. Four further surfaces are recorded as tenant relationships rather
+    than as Otago contracts. Six things could not be resolved and are named rather than assumed.
+    (1) www.otago.ac.nz returns 403 to every scripted request across the whole origin, including
+    robots.txt, sitemap.xml and llms.txt, so the sitemap crawl used to MEASURE absence on other
+    institutions in this cohort could not be run here; the "no developer portal" finding rests on
+    subdomain enumeration and search instead, and is therefore weaker evidence than Adelaide's.
+    (2) api.otago.ac.nz is a genuine Otago-owned hostname behind Cloudflare whose origin is an
+    OpenShift router returning the default 503 "Application is not available" page on all eight
+    paths probed — an API gateway with no reachable application, not credited as a surface.
+    (3) OUR Archive's OAI-PMH endpoint is deployed but every verb returns 403 with OAI error_code
+    21, so no metadata record was ever retrieved and conformance is recorded as gated, not
+    present. (4) otago.figshare.com answers 202 with an empty body, which Figshare returns for
+    both live tenancies and its wildcard, so the tenancy can be neither confirmed nor denied and
+    is deliberately NOT asserted. (5) library.otago.ac.nz, hpc.otago.ac.nz and login.otago.ac.nz
+    all resolve to campus addresses but do not complete a connection publicly — real internal
+    services, not public surfaces. (6) The DataCite repository otagouni.qmyzok, "University of
+    Otago Open Journals", is registered but its host openjournals.otago.ac.nz is NXDOMAIN and it
+    holds 0 DOIs; the registration outlived the service.
+  evidence:
+    - url: https://artificialintelligence.otago.ac.nz/wp-json/
+      status: 200
+    - url: https://artificialintelligence.otago.ac.nz/wp-json/wp/v2/pages
+      status: 200
+    - url: https://artificialintelligence.otago.ac.nz/
+      status: 200
+    - url: https://blackboard.otago.ac.nz/learn/api/public/v1/system/version
+      status: 200
+    - url: https://blackboard.otago.ac.nz/learn/api/public/v1/courses
+      status: 401
+    - url: https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml
+      status: 200
+    - url: https://api.datacite.org/providers/otagouni
+      status: 200
+    - url: https://api.crossref.org/members/4843
+      status: 200
+    - url: https://ourarchive.otago.ac.nz/
+      status: 200
+    - url: https://ourarchive.otago.ac.nz/esploro/?institution=64OTAGO_INST
+      status: 200
+    - url: https://ourarchive.otago.ac.nz/view/google/siteindex.xml
+      status: 200
+    - url: https://ourarchive.otago.ac.nz/view/oai/64OTAGO_INST/request?verb=Identify
+      status: 403
+    - url: https://ourarchive.otago.ac.nz/esploro/openapi
+      status: 200
+    - url: https://blackboard.otago.ac.nz/.well-known/openid-configuration
+      status: 200
+    - url: https://ask.otago.ac.nz/knowledgebase/article/KA-10005970/en-us
+      status: 200
+    - url: https://otago.libguides.com/Generative_AI/policies
+      status: 200
+    - url: https://docs.tuakiri.ac.nz/
+      status: 200
+    - url: https://api.otago.ac.nz/
+      status: 503
+    - url: https://otago.figshare.com/
+      status: 202
+    - url: https://otago.instructure.com/
+      status: 404
+    - url: https://www.otago.ac.nz/
+      status: 403
+    - url: https://library.otago.ac.nz/
+      status: 0
 apis:
-  - aid: university-of-otago:our-archive-oai
-    name: OUR Archive OAI-PMH Metadata
+  - aid: university-of-otago:ai-site-wp-rest
+    name: Artificial Intelligence at Otago — WordPress REST API
+    x-operator: institution
     description: >-
-      OUR Archive (Otago University Research Archive) is the University of Otago
-      institutional research repository, now hosted on Ex Libris / Clarivate Esploro.
-      It exposes an OAI-PMH (Open Archives Initiative Protocol for Metadata Harvesting)
-      endpoint following the standard Esploro pattern at /view/oai/64OTAGO_INST/request.
-      The endpoint resolves and returns valid OAI XML, but at the time of review it
-      returned OAI error_code 21 ("Unauthorized access to the OAI services"),
-      indicating public harvesting is not currently enabled. Listed as the repository's
-      standards-based metadata interface; confirm authorization with the library before
-      relying on it.
+      The University's AI guidance site runs on WordPress that Otago self-hosts on its own domain
+      behind Cloudflare, and it exposes the full WordPress REST API without credentials. Confirmed
+      live 2026-08-30: /wp-json/ returns a 200,783-byte discovery document naming the site
+      "Artificial Intelligence at the University of Otago", declaring six namespaces —
+      oembed/1.0, wordfence/v1, wp/v2, wp-site-health/v1, wp-block-editor/v1, wp-abilities/v1 —
+      and 144 routes, 111 of them under wp/v2, with an EMPTY "authentication" array.
+      /wp-json/wp/v2/pages returns page objects anonymously, and /feed/ serves RSS. This is the
+      only machine-readable surface in this repo that is on Otago's domain, operated by Otago,
+      and callable without a credential. WordPress is open-source software Otago deploys rather
+      than a service it subscribes to, so the host and the operation are both Otago's — but the
+      CONTRACT is the WordPress project's and is shipped identically by millions of sites, so no
+      Otago-specific OpenAPI is published for it and none is generated here. What is stored is
+      the live route table as probed.
+    humanURL: https://artificialintelligence.otago.ac.nz/
+    baseURL: https://artificialintelligence.otago.ac.nz/wp-json/
+    tags: [ Content, WordPress, REST, AI Policy, Keyless, Institution Operated ]
+    properties:
+      - type: Documentation
+        url: https://developer.wordpress.org/rest-api/
+      - type: BaseURL
+        url: https://artificialintelligence.otago.ac.nz/wp-json/
+      - type: Examples
+        url: examples/university-of-otago-wp-rest-root-response.json
+      - type: Authentication
+        url: authentication/university-of-otago-authentication.yml
+  - aid: university-of-otago:our-archive-oai
+    name: OUR Archive OAI-PMH Metadata — Ex Libris Esploro tenancy
+    x-operator: tenant
+    description: >-
+      OUR Archive (Otago University Research Archive) is the University's institutional research
+      repository. The DATA, the DOIs and the curation are Otago's; the CONTRACT and the
+      engineering are Ex Libris / Clarivate's. This entry is the correction made in the 2026-08-30
+      run: the hostname ourarchive.otago.ac.nz sits under Otago's own registrable domain, so a
+      hostname-only verdict reads it as institution-operated, and that is how it was previously
+      recorded. DNS resolution shows the host is a CNAME to ap02.esploro.exlibrisgroup.com
+      (216.147.221.101) — an Esploro tenancy, the same shape as scholarbank.nus.edu.sg. It is
+      therefore a tenant relationship, not Otago's engineering. Probed 2026-08-30: the OAI-PMH
+      endpoint follows the standard Esploro pattern /view/oai/64OTAGO_INST/request and answers in
+      the protocol's own XML, but every verb — Identify, ListMetadataFormats, ListSets,
+      ListRecords — returns HTTP 403 with error_code 21, "Unauthorized access to the OAI
+      services". Harvesting is deployed and not authorised. The repository's Esploro research
+      portal (200) and its sitemap index (200, lastmod 2026-08-30) are open. The legacy DSpace
+      path /oai now 404s. No Esploro contract is stored here; it belongs to Ex Libris.
     humanURL: https://ourarchive.otago.ac.nz/esploro/?institution=64OTAGO_INST
     baseURL: https://ourarchive.otago.ac.nz/view/oai/64OTAGO_INST/request
-    tags: [ Repository, OAI-PMH, Research, Open Access, Metadata, Library ]
+    tags: [ Repository, OAI-PMH, Research, Open Access, Metadata, Library, Esploro, Tenant, Gated ]
     properties:
       - type: Documentation
         url: https://developers.exlibrisgroup.com/esploro/integrations/oai/
-      - type: Repository
+      - type: BaseURL
+        url: https://ourarchive.otago.ac.nz/view/oai/64OTAGO_INST/request
+      - type: ResearchRepository
         url: https://ourarchive.otago.ac.nz/
-  - aid: university-of-otago:tuakiri-sso
-    name: Tuakiri Federated Identity (SAML 2.0 / Shibboleth)
+      - type: Examples
+        url: examples/university-of-otago-oai-pmh-identify-response.xml
+      - type: Conformance
+        url: conformance/university-of-otago-education-standards.yml
+  - aid: university-of-otago:blackboard-learn
+    name: Blackboard Learn — University of Otago tenancy
+    x-operator: tenant
     description: >-
-      The University of Otago operates a SAML 2.0 / Shibboleth Identity Provider (IdP)
-      as a member of the Tuakiri NZ Access Federation, administered by REANNZ. This
-      provides browser-based single sign-on for staff and students to access federated
-      services across New Zealand research and education. This is federation identity
-      infrastructure rather than a self-service developer API; integration is governed
-      by Tuakiri federation membership and SAML metadata, not an open API program.
+      The University's learning management system runs on Anthology Blackboard Learn at
+      blackboard.otago.ac.nz, which CNAMEs to otago.blackboard.com and on to AWS ap-southeast-2.
+      The tenancy, roster and course content are Otago's; the API contract is Blackboard's. Newly
+      recorded in the 2026-08-30 run — the June profile did not find it. Probed 2026-08-30:
+      /learn/api/public/v1/system/version answers keyless with
+      {"learn":{"major":4000,"minor":21,"patch":0,"build":"rel.28+435d029"}}, and every
+      data-bearing endpoint returns HTTP 401 with {"status":401,"message":"API request is not
+      authenticated."} — confirmed on /learn/api/public/v1/courses,
+      /learn/api/public/v1/dataSources and /learn/api/public/v3/courses. A 401 rather than a 404
+      is the evidence the API exists and is gated. The baseURL below records the API base, not a
+      callable document: a bare GET to /learn/api/public/v1 returns 400, as Blackboard does on
+      every deployment. Credentials are REST application keys are issued only by Otago
+      administrators. NO LTI CONFORMANCE IS CLAIMED: /.well-known/openid-configuration returns
+      HTTP 200 but its body is Blackboard's login.jsp HTML page, a soft-200 rather than an OIDC
+      discovery document. Blackboard's contract is not stored here.
+    humanURL: https://blackboard.otago.ac.nz/
+    baseURL: https://blackboard.otago.ac.nz/learn/api/public/v1
+    tags: [ Learning Management, Blackboard, Anthology, Tenant, Gated, Education ]
+    properties:
+      - type: Documentation
+        url: https://developer.anthology.com/portal/displayApi
+      - type: BaseURL
+        url: https://blackboard.otago.ac.nz/learn/api/public/v1
+      - type: Examples
+        url: examples/university-of-otago-blackboard-version-response.json
+      - type: Authentication
+        url: authentication/university-of-otago-authentication.yml
+  - aid: university-of-otago:tuakiri-idp
+    name: University of Otago Identity Provider (SAML 2.0 / Shibboleth) — Tuakiri Hosted Login
+    x-operator: tenant
+    description: >-
+      Otago's SAML 2.0 identity is published as a complete IDPSSODescriptor in the SIGNED Tuakiri
+      NZ Access Federation metadata aggregate, under entityID
+      https://idp.otago.ac.nz/idp/shibboleth with DisplayName "The University of Otago". Confirmed
+      live 2026-08-30: the aggregate returns 200 and 725,866 bytes covering 82 entities, of which
+      two mention Otago. The operator finding is the useful one and it was not previously
+      recorded: Otago owns the entityID, but all six advertised endpoint bindings — SAML2
+      Redirect/POST/POST-SimpleSign for both SSO and SLO — resolve to
+      hosted-login.tuakiri.ac.nz/hosting/otago.ac.nz/idp/..., which is REANNZ's Tuakiri Hosted
+      Login service (tuakiri-hostedidp-ha.reannz.co.nz). Otago holds the federation identity;
+      REANNZ runs the software. Note also that idp.otago.ac.nz does not exist in DNS — a SAML
+      entityID is a name, not an address, and must not be read as a callable Otago host. This is
+      browser-mediated SSO, not a self-service API: a bare GET to the Redirect/SSO binding returns
+      500 because it carries no AuthnRequest, which is expected and is not a fault.
     humanURL: https://www.reannz.co.nz/products-and-services/tuakiri/technical-information
-    tags: [ Identity, SSO, SAML, Shibboleth, Federation, Authentication ]
+    baseURL: https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml
+    tags: [ Identity Federation, Shibboleth, SAML, Tuakiri, REANNZ, Single Sign-On, Tenant ]
     properties:
       - type: Documentation
         url: https://docs.tuakiri.ac.nz/
+      - type: BaseURL
+        url: https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml
+      - type: Examples
+        url: examples/university-of-otago-saml-idp-metadata.xml
+      - type: Conformance
+        url: conformance/university-of-otago-education-standards.yml
       - type: Authentication
         url: https://ask.otago.ac.nz/knowledgebase/article/KA-10002700/en-us
+  - aid: university-of-otago:scholarly-identifiers
+    name: Otago Scholarly Identifier Registrations (DataCite + Crossref)
+    x-operator: tenant
+    description: >-
+      Otago's persistent-identifier registrations, readable through each registry's public REST
+      API. Confirmed live 2026-08-30. DataCite carries provider `otagouni` — "University of
+      Otago", memberType consortium_organization, organizationType academicInstitution, country
+      NZ, rorId https://ror.org/01jmxt844, created 2026-01-14 — with repository
+      `otagouni.snbodh` ("OUR Archive") holding 334 registered DOIs. Crossref carries member 4843,
+      "University of Otago Library", holding DOI prefix 10.11157 with 2,537 DOIs deposited (412
+      current, 2,125 backfile); the depositing entity is the University Library itself, which
+      makes it institution-attributed rather than a vendor's. Recorded as tenant because Otago
+      holds the accounts and does the depositing while DataCite and Crossref run the endpoints.
+      A second DataCite repository, `otagouni.qmyzok` ("University of Otago Open Journals"), is
+      registered but holds 0 DOIs and its host openjournals.otago.ac.nz is NXDOMAIN — the
+      registration outlived the service, and it is recorded as a finding rather than a surface.
+    humanURL: https://ror.org/01jmxt844
+    baseURL: https://api.datacite.org/providers/otagouni
+    tags: [ DataCite, Crossref, DOI, Persistent Identifiers, Metadata, Research, Tenant ]
+    properties:
+      - type: Documentation
+        url: https://support.datacite.org/docs/api
+      - type: BaseURL
+        url: https://api.datacite.org/providers/otagouni
+      - type: Conformance
+        url: conformance/university-of-otago-education-standards.yml
 common:
-  - type: DomainSecurity
-    url: security/university-of-otago-domain-security.yml
   - type: Website
     url: https://www.otago.ac.nz/
-  - type: Repository
+  - type: ResearchRepository
     url: https://ourarchive.otago.ac.nz/
-  - type: LinkedIn
-    url: https://www.linkedin.com/school/university-of-otago/
+  - type: IdentityFederation
+    url: https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml
+  - type: IdentityFederation
+    url: https://docs.tuakiri.ac.nz/
+  - type: APIReference
+    url: https://artificialintelligence.otago.ac.nz/wp-json/
+  - type: AIPolicy
+    url: https://artificialintelligence.otago.ac.nz/
+  - type: AIPolicy
+    url: https://otago.libguides.com/Generative_AI/policies
+  - type: AIPolicy
+    url: https://ask.otago.ac.nz/knowledgebase/article/KA-10005970/en-us
+  - type: Support
+    url: https://ask.otago.ac.nz/
   - type: Authentication
     url: https://ask.otago.ac.nz/knowledgebase/article/KA-10002700/en-us
+  - type: LinkedIn
+    url: https://www.linkedin.com/school/university-of-otago/
+  - type: Conformance
+    url: conformance/university-of-otago-education-standards.yml
+  - type: Authentication
+    url: authentication/university-of-otago-authentication.yml
+  - type: Vocabulary
+    url: vocabulary/university-of-otago-vocabulary.yml
+  - type: Examples
+    url: examples/university-of-otago-examples.yml
+  - type: DomainSecurity
+    url: security/university-of-otago-domain-security.yml
   - type: Plans
     url: plans/university-of-otago-plans-pricing.yml
   - type: RateLimits
     url: rate-limits/university-of-otago-rate-limits.yml
   - type: FinOps
     url: finops/university-of-otago-finops.yml
-  - type: Review
-    url: review.yml
-  - type: Blog
-    url: blogs/blogs.json
   - type: JSONLD
     url: json-ld/university-of-otago-context.jsonld
+  - type: Blog
+    url: blogs/blogs.json
+  - type: Review
+    url: review.yml
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
