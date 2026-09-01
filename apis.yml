@@ -199,7 +199,20 @@ apis:
       the live route table as probed.
     humanURL: https://artificialintelligence.otago.ac.nz/
     baseURL: https://artificialintelligence.otago.ac.nz/wp-json/
-    tags: [ Content, WordPress, REST, AI Policy, Keyless, Institution Operated ]
+    tags:
+    - Content
+    - WordPress
+    - REST
+    - AI Policy
+    - Keyless
+    - Institution-Operated
+    tags_raw:
+    - Content
+    - WordPress
+    - REST
+    - AI Policy
+    - Keyless
+    - Institution Operated
     properties:
       - type: Documentation
         url: https://developer.wordpress.org/rest-api/
