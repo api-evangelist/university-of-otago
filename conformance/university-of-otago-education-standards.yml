@@ -1,0 +1,150 @@
+---
+name: University of Otago — Education Regime Domain Standard Conformance
+description: >-
+  Conformance of the University of Otago's machine-readable surfaces against the Kin Score
+  `education` regulatory regime standards[]. REWARD-ONLY: a standard appears as `present` only
+  where a live probe returned evidence at the location named below. Standards that were hunted
+  and not found are listed under `absent` with the probe that failed, so the absence is measured
+  rather than inferred.
+url: https://raw.githubusercontent.com/api-evangelist/university-of-otago/refs/heads/main/conformance/university-of-otago-education-standards.yml
+created: '2026-08-30'
+modified: '2026-08-30'
+generated: '2026-08-30'
+method: probed
+source: >-
+  Live HTTP probes of otago.ac.nz hosts, the signed Tuakiri NZ Access Federation metadata
+  aggregate, the DataCite REST API and the Crossref REST API, all executed 2026-08-30.
+regime: education
+
+present:
+  - standard: oai-pmh
+    status: gated
+    surface: university-of-otago:our-archive-oai
+    x-operator: tenant
+    evidence:
+      url: https://ourarchive.otago.ac.nz/view/oai/64OTAGO_INST/request?verb=Identify
+      status: 403
+      location: HTTP response body — OAI error envelope
+      detail: >-
+        The endpoint implements OAI-PMH and answers in the protocol's own XML error vocabulary,
+        which is itself the conformance evidence: it returns
+        <error><error_code>21</error_code><error_message>Unauthorized access to the OAI services
+        – please contact the system administrator for assistance</error_message></error>.
+        Identify, ListMetadataFormats, ListSets and ListRecords all return the same envelope,
+        so the protocol is deployed but public harvesting is not authorised. Conformance is
+        recorded as `gated`, not `present`: no metadata record was ever retrieved.
+      captured: '2026-08-30'
+      example: examples/university-of-otago-oai-pmh-identify-response.xml
+    note: >-
+      The endpoint follows the standard Ex Libris Esploro pattern /view/oai/<INST>/request. The
+      legacy DSpace path /oai returns 404 after the migration to Esploro.
+
+  - standard: saml
+    status: present
+    surface: university-of-otago:tuakiri-idp
+    x-operator: tenant
+    evidence:
+      url: https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml
+      status: 200
+      location: >-
+        EntityDescriptor entityID="https://idp.otago.ac.nz/idp/shibboleth" within the signed
+        Tuakiri aggregate (82 entities total; 2 mention Otago)
+      detail: >-
+        A complete SAML 2.0 IDPSSODescriptor for "The University of Otago" is published in the
+        signed Tuakiri NZ Access Federation aggregate, carrying six endpoint bindings —
+        SAML2/Redirect/SSO, SAML2/POST/SSO, SAML2/POST-SimpleSign/SSO and the matching three SLO
+        bindings. This is machine-readable identity metadata attributed to the institution and
+        signed by the federation operator.
+      captured: '2026-08-30'
+      example: examples/university-of-otago-saml-idp-metadata.xml
+
+  - standard: shibboleth
+    status: present
+    surface: university-of-otago:tuakiri-idp
+    x-operator: tenant
+    evidence:
+      url: https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml
+      status: 200
+      location: entityID https://idp.otago.ac.nz/idp/shibboleth
+      detail: >-
+        The entityID follows the Shibboleth IdP convention (/idp/shibboleth) and the descriptor
+        declares the Shibboleth SSO profile bindings. The entityID sits in Otago's own namespace,
+        but every advertised endpoint Location resolves to
+        hosted-login.tuakiri.ac.nz/hosting/otago.ac.nz/idp/... — REANNZ's Tuakiri Hosted Login
+        service. Otago holds the federation identity; REANNZ runs the software. That is why the
+        surface is labelled x-operator: tenant rather than institution.
+      captured: '2026-08-30'
+      example: examples/university-of-otago-saml-idp-metadata.xml
+
+  - standard: datacite
+    status: present
+    surface: university-of-otago:scholarly-identifiers
+    x-operator: tenant
+    evidence:
+      url: https://api.datacite.org/providers/otagouni
+      status: 200
+      location: data.attributes
+      detail: >-
+        DataCite carries "University of Otago" as provider id `otagouni`, memberType
+        consortium_organization, organizationType academicInstitution, country NZ, rorId
+        https://ror.org/01jmxt844, created 2026-01-14. One of its two repositories is live:
+        `otagouni.snbodh` ("OUR Archive", https://ourarchive.otago.ac.nz/) with 334 DOIs
+        registered. The second, `otagouni.qmyzok` ("University of Otago Open Journals",
+        https://openjournals.otago.ac.nz/), has 0 DOIs and its host no longer resolves — see
+        `absent`/notes below.
+      captured: '2026-08-30'
+
+  - standard: crossref
+    status: present
+    surface: university-of-otago:scholarly-identifiers
+    x-operator: tenant
+    evidence:
+      url: https://api.crossref.org/members/4843
+      status: 200
+      location: message.primary-name / message.prefixes / message.counts
+      detail: >-
+        Crossref member 4843 is "University of Otago Library", holding DOI prefix 10.11157 with
+        2,537 DOIs deposited (412 current, 2,125 backfile). The depositing entity is the
+        University Library itself, which makes this an institution-attributed registration
+        rather than a vendor's.
+      captured: '2026-08-30'
+
+absent:
+  - standard: lti
+    detail: >-
+      Hunted on the Blackboard Learn tenancy and NOT found. blackboard.otago.ac.nz
+      /.well-known/openid-configuration returns HTTP 200, but the body is Blackboard's
+      login.jsp page — an HTML soft-200, not an OIDC discovery document — so no LTI 1.3
+      issuer, JWKS or platform configuration is retrievable. No LTI conformance is claimed.
+    evidence:
+      url: https://blackboard.otago.ac.nz/.well-known/openid-configuration
+      status: 200
+      soft_200: true
+  - standard: scim
+    detail: No SCIM /Users or /ServiceProviderConfig endpoint found on any otago.ac.nz host.
+  - standard: oneroster
+    detail: No OneRoster endpoint found; Otago is a tertiary institution and OneRoster is K-12 oriented.
+  - standard: ed-fi
+    detail: No Ed-Fi surface found; Ed-Fi is a US K-12 standard and does not apply to this institution.
+  - standard: caliper
+    detail: No Caliper analytics endpoint or event store found on any probed host.
+  - standard: qti
+    detail: No QTI assessment interchange surface found.
+  - standard: orcid
+    detail: >-
+      NOT claimed. pub.orcid.org reports 6,236 ORCID records naming a University of Otago
+      affiliation, but those are records held by individual researchers on ORCID's platform,
+      not an Otago-operated integration or an institutional ORCID member API. Crediting the
+      institution for them would be the misattribution this pipeline exists to prevent.
+
+notes:
+  - >-
+    The DataCite repository `otagouni.qmyzok` ("University of Otago Open Journals") points at
+    https://openjournals.otago.ac.nz/, which returns NXDOMAIN from DNS and has 0 DOIs registered.
+    The registration outlived the service. It is recorded here as a finding, not as a surface.
+  - >-
+    Four of the five conformances above sit on surfaces the institution does not engineer. That
+    is the honest shape of a university's standards footprint: Otago holds the memberships, the
+    identifiers and the federation identity; Ex Libris, REANNZ, DataCite and Crossref run the
+    endpoints. The one surface Otago genuinely operates — the WordPress REST API at
+    artificialintelligence.otago.ac.nz — carries no education-regime domain standard at all.

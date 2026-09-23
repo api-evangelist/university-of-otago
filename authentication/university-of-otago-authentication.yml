@@ -1,0 +1,120 @@
+---
+name: University of Otago — Authentication Posture
+description: >-
+  How each machine-readable surface attributed to the University of Otago authenticates, as
+  observed from live probes rather than from documentation. Every status code below was returned
+  to an unauthenticated request from a public network on 2026-08-30.
+url: https://raw.githubusercontent.com/api-evangelist/university-of-otago/refs/heads/main/authentication/university-of-otago-authentication.yml
+created: '2026-08-30'
+modified: '2026-08-30'
+generated: '2026-08-30'
+method: probed
+source: Unauthenticated HTTP probes executed 2026-08-30 with a browser User-Agent.
+
+surfaces:
+  - aid: university-of-otago:ai-site-wp-rest
+    x-operator: institution
+    scheme: none
+    public_read: true
+    detail: >-
+      The WordPress REST API at artificialintelligence.otago.ac.nz declares an empty
+      "authentication": [] object in its discovery document and serves published content to
+      anonymous callers: /wp-json/ returns the full 144-route index (200) and
+      /wp-json/wp/v2/pages returns page objects (200) with no credential. Write methods
+      (POST/PUT/PATCH/DELETE) are advertised in the route table but require a WordPress
+      session or application password that is not publicly issued. This is the only surface in
+      this repo that answers with institution-owned data and no credential.
+    evidence:
+      - url: https://artificialintelligence.otago.ac.nz/wp-json/
+        status: 200
+      - url: https://artificialintelligence.otago.ac.nz/wp-json/wp/v2/pages
+        status: 200
+
+  - aid: university-of-otago:our-archive-oai
+    x-operator: tenant
+    scheme: gated
+    public_read: false
+    detail: >-
+      OAI-PMH harvesting is deployed but not authorised for the public. Every verb returns
+      HTTP 403 with OAI error_code 21, "Unauthorized access to the OAI services". There is no
+      documented public path to obtain authorisation; Ex Libris Esploro gates OAI at the tenant
+      configuration level, so enabling it is Otago's decision and Ex Libris's switch. The
+      repository's human interface and its sitemap index are open.
+    evidence:
+      - url: https://ourarchive.otago.ac.nz/view/oai/64OTAGO_INST/request?verb=Identify
+        status: 403
+      - url: https://ourarchive.otago.ac.nz/view/google/siteindex.xml
+        status: 200
+      - url: https://ourarchive.otago.ac.nz/esploro/?institution=64OTAGO_INST
+        status: 200
+
+  - aid: university-of-otago:blackboard-learn
+    x-operator: tenant
+    scheme: oauth2
+    public_read: partial
+    detail: >-
+      Blackboard Learn's REST API is deployed and reachable. One endpoint answers keyless —
+      /learn/api/public/v1/system/version returns {"learn":{"major":4000,"minor":21,"patch":0,
+      "build":"rel.28+435d029"}} (200). Every data endpoint returns HTTP 401 with the JSON body
+      {"status":401,"message":"API request is not authenticated."} — /learn/api/public/v1/courses,
+      /learn/api/public/v1/dataSources and /learn/api/public/v3/courses were all confirmed. A 401
+      rather than a 404 is the evidence that the API exists and is gated. Credentials are
+      REST application keys issued only by Otago administrators through the Anthology developer
+      portal; there is no self-service signup.
+    evidence:
+      - url: https://blackboard.otago.ac.nz/learn/api/public/v1/system/version
+        status: 200
+      - url: https://blackboard.otago.ac.nz/learn/api/public/v1/courses
+        status: 401
+      - url: https://blackboard.otago.ac.nz/learn/api/public/v1/dataSources
+        status: 401
+      - url: https://blackboard.otago.ac.nz/learn/api/public/v3/courses
+        status: 401
+
+  - aid: university-of-otago:tuakiri-idp
+    x-operator: tenant
+    scheme: saml2
+    public_read: metadata_only
+    detail: >-
+      Browser-mediated SAML 2.0 web SSO. There is no bearer token, API key or client-credentials
+      path: an integration becomes a Tuakiri service provider and receives assertions, it does
+      not call an endpoint. The federation METADATA is fully public and machine-readable from the
+      signed aggregate (200). The SSO endpoint itself is not meaningfully callable outside a SAML
+      flow — a bare GET to the Redirect/SSO binding returns HTTP 500, which is the expected
+      response to a request carrying no AuthnRequest, not a fault in the service.
+    evidence:
+      - url: https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml
+        status: 200
+      - url: https://hosted-login.tuakiri.ac.nz/hosting/otago.ac.nz/idp/profile/SAML2/Redirect/SSO
+        status: 500
+
+  - aid: university-of-otago:scholarly-identifiers
+    x-operator: tenant
+    scheme: none
+    public_read: true
+    detail: >-
+      Otago's DataCite and Crossref registrations are readable without credentials through each
+      registry's own public REST API. Otago authenticates to DEPOSIT (DataCite repository
+      accounts otagouni.snbodh / otagouni.qmyzok, Crossref member 4843 depositor credentials);
+      the public may READ the resulting records anonymously. The credentials belong to Otago;
+      the endpoints belong to the registries.
+    evidence:
+      - url: https://api.datacite.org/providers/otagouni
+        status: 200
+      - url: https://api.crossref.org/members/4843
+        status: 200
+
+not_authenticable:
+  - url: https://api.otago.ac.nz/
+    status: 503
+    detail: >-
+      Institution-owned hostname behind Cloudflare, but the origin is an OpenShift router
+      returning the default "Application is not available" page on every path probed
+      (/, /openapi.json, /swagger, /docs, /api, /v1, /health, /.well-known/openapi). There is
+      nothing to authenticate against. Not recorded as a surface.
+  - url: https://login.otago.ac.nz/
+    status: 0
+    detail: >-
+      Resolves to a campus address (139.80.64.89 via its-cs-im.registry.otago.ac.nz) but does
+      not complete a connection from a public network. A real internal identity service that is
+      not publicly callable, and is not credited as a surface.

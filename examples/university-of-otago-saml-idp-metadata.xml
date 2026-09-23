@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EntityDescriptor for the University of Otago Identity Provider, extracted VERBATIM on
+     2026-08-30 from the SIGNED Tuakiri NZ Access Federation aggregate at
+     https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml
+     (HTTP 200, 725,866 bytes, 82 entities). method: probed
+
+     The <OtagoIdPMetadataExtract> wrapper is OURS, not the federation's: it exists only to
+     re-declare the namespace prefixes the fragment inherits from the aggregate root, so the file
+     parses standalone. The EntityDescriptor inside it is byte-for-byte as published. Detaching it
+     from the aggregate means the aggregate signature no longer covers it — verify against the
+     live aggregate, never against this file. -->
+<OtagoIdPMetadataExtract xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:mdattr="urn:oasis:names:tc:SAML:metadata:attribute" xmlns:mdrpi="urn:oasis:names:tc:SAML:metadata:rpi" xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui" xmlns:remd="http://refeds.org/metadata" xmlns:req-attr="urn:oasis:names:tc:SAML:protocol:ext:req-attr" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:shibmd="urn:mace:shibboleth:metadata:1.0">
+<md:EntityDescriptor entityID="https://idp.otago.ac.nz/idp/shibboleth">
+    <md:Extensions>
+      <mdrpi:RegistrationInfo registrationAuthority="https://tuakiri.ac.nz/" registrationInstant="2012-12-06T03:11:47Z">
+        <mdrpi:RegistrationPolicy xml:lang="en">https://tuakiri.ac.nz/documents/tuakiri-mrps-1.0.pdf</mdrpi:RegistrationPolicy>
+      </mdrpi:RegistrationInfo>
+      <mdattr:EntityAttributes>
+        <saml:Attribute Name="http://macedir.org/entity-category-support" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+          <saml:AttributeValue>http://refeds.org/category/research-and-scholarship</saml:AttributeValue>
+        </saml:Attribute>
+        <saml:Attribute Name="urn:oasis:names:tc:SAML:attribute:assurance-certification" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+          <saml:AttributeValue>https://refeds.org/sirtfi</saml:AttributeValue>
+        </saml:Attribute>
+      </mdattr:EntityAttributes>
+    </md:Extensions>
+    <md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:Extensions>
+        <shibmd:Scope regexp="false">otago.ac.nz</shibmd:Scope>
+        <mdui:UIInfo>
+          <mdui:DisplayName xml:lang="en">The University of Otago</mdui:DisplayName>
+          <mdui:Description xml:lang="en">The University of Otago, with its main campus in Dunedin, is New Zealand's oldest university.</mdui:Description>
+          <mdui:Logo xml:lang="en" height="82" width="200">https://hosted-login.tuakiri.ac.nz/hosting/otago.ac.nz/idp/images/ou-logo.png</mdui:Logo>
+        </mdui:UIInfo>
+      </md:Extensions>
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo>
+          <ds:X509Data>
+            <ds:X509Certificate>MIIEcDCCAtigAwIBAgIUevsb16VGA06FfYQzYU5324NuEpYwDQYJKoZIhvcNAQELBQAwOTE3MDUG
+A1UEAwwuaG9zdGVkLWxvZ2luLnR1YWtpcmkuYWMubnovaG9zdGluZy9vdGFnby5hYy5uejAeFw0y
+NDA0MDQyMjI4MjNaFw00NDAzMzAyMjI4MjNaMDkxNzA1BgNVBAMMLmhvc3RlZC1sb2dpbi50dWFr
+aXJpLmFjLm56L2hvc3Rpbmcvb3RhZ28uYWMubnowggGiMA0GCSqGSIb3DQEBAQUAA4IBjwAwggGK
+AoIBgQCmo+aYtY5SLK8G9xjFcjzZoiXsQH8Xbc/65Anb0Hoh2ZpRDfJxGMHxfKTv+E0b1Nd8Y945
+TF/Z67HY0mXKOPYHXrZm9sCNmBSzNwhx1VlG01NK/Lu7RkIsHok126/REip/bPQOf1MTBNMQPBWP
+7wjLWx11qU+jXHHeuMf28wwMtWME9xlboR6D9zf9spUHlmIIzRDe1cArTfrN28uViVqyzoXfM9Oy
+4Sc+mlyE41vyJodMNVidzl+xL6whn7FB94QG9ENVepogA3huBTBbJswaTXjFrWzR6vBEEt0qT8TV
+JNPb4mH9La8wzdvCJyzypXlZ4dbJLDQNb0VFhkq4ROVLgqyq5OAhLZiywp2Wi4Z3npzmBxcCTz47
+Z1JhIs5SIfc/hZ6R3IvDYyHKE98p/jWzMCDvdfSbIuew9sP+sIIT0I/oMA+N7gzWFnzwm0tJV3bp
+cN3pGZW5kblU9qi0/EQwHQGawZjB8K+BkI7cWacfYIBrARQFl76YXsODlxtKz5UCAwEAAaNwMG4w
+TQYDVR0RBEYwRIIaaG9zdGVkLWxvZ2luLnR1YWtpcmkuYWMubnqGJmh0dHBzOi8vaWRwLm90YWdv
+LmFjLm56L2lkcC9zaGliYm9sZXRoMB0GA1UdDgQWBBQt9AZTQkSimYNdcxmYfc/BVtHhmTANBgkq
+hkiG9w0BAQsFAAOCAYEAkMxl2vO9cxsTlEFk2chL2rp60jQH7Jq68BNCmNEZ89vxenht4WazwNm4
+yMcT77lb45Q4fvNM/KRTu9KLsLz8NMxEA48wj+B+NgXCH3smCbF+DLWJK2hjNx9B+ZemlXNTjm4v
+ydG6H99hO+vX1XvPLSor0D/SqEVKbP99IaFNxFotySL7bvHyQUmkQm2ueG8pXA9UOmgAZk23OM4o
+JFfrj2uQXZzFgxA13SEm2Wlp6nNqW0ipVN5yGyZtWMGBbchz2CrANWVYs73cjOGG3Uyw0UcUrCNs
+y0XygCtCcxvLzpySEuqTlCQxzDPLwiu+Nqz5XzmS85slCpZ5ajm31QgjzQRnMFEooBySVzaUnKsZ
+g81UMf/qcrpY7XpMsDXQvKZ0zr1sHDvo61HmWAuLtyXI8PltO4zjz8TpZf4FbjBMFfqqlIsxzwSp
+9YN2p8faVHFXeDrUzzYQ8H8ClwqPuTq+AvWJoDsAszwfTpHF0UwIVSoFswUNLEmn4oXGkcIQQeWy</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:KeyDescriptor use="encryption">
+        <ds:KeyInfo>
+          <ds:X509Data>
+            <ds:X509Certificate>MIIEcDCCAtigAwIBAgIUbN1hmjBY0m6PND+ZhskeRkHpFK0wDQYJKoZIhvcNAQELBQAwOTE3MDUG
+A1UEAwwuaG9zdGVkLWxvZ2luLnR1YWtpcmkuYWMubnovaG9zdGluZy9vdGFnby5hYy5uejAeFw0y
+NDA0MDQyMjI4MjZaFw00NDAzMzAyMjI4MjZaMDkxNzA1BgNVBAMMLmhvc3RlZC1sb2dpbi50dWFr
+aXJpLmFjLm56L2hvc3Rpbmcvb3RhZ28uYWMubnowggGiMA0GCSqGSIb3DQEBAQUAA4IBjwAwggGK
+AoIBgQCgy8EJQZovcDN5eiYQszai0gBva0XXiaZbsxXPJtIvWJg205Y7huz4SC0I7xvohDmZFCuS
+MAiTZdWuQGsHApQCZvyOzzfdRYrX73XmzlhbG86VtaYM4sqdAyGBuxtV5Du4hk7Bc00vEvPk5hVS
+kYukDtaFOpvfYKp4KWAh1wAeQF/MopKSsOIje99CMfX4LIAJLmUTX9j6OOzP0AKY+1Lf+3Y61Si7
+1TigMFJ9qm7a75jwTiJ52dBq+qEdKR7UFxmy2VmOMJVk7hJJUICzuUfTmJcFsOEqAnAO94ZifQgQ
+HV2KthU948wYCtBa1x4lOhQc7iGnv/NrQrMnuk0xkr02bTKiXZnSKGF0r1mTaWjy2AUd+FQQ95vK
+j3AVeUZ6XEu8FyKrxJZ5bIHIwK9wkWzDt6WQG4+c+DcI+C3CLTcAHuT0cIPv3LUoFpMgt9LEKonQ
+0JHFHTG7PQXuU8tmoDzdQzjqA1t1R4VqW7f4iytt6vYdIxvcZi6PR3zWFP3O970CAwEAAaNwMG4w
+TQYDVR0RBEYwRIIaaG9zdGVkLWxvZ2luLnR1YWtpcmkuYWMubnqGJmh0dHBzOi8vaWRwLm90YWdv
+LmFjLm56L2lkcC9zaGliYm9sZXRoMB0GA1UdDgQWBBQzhOoMRkwaIRUcWOSdZBDhuIegKzANBgkq
+hkiG9w0BAQsFAAOCAYEAPeR01N/7NA5rzH7ixQFXPlFRrlmgsl4gdIEkqe54rbYMLrga9wwfRWrv
+a+1LJQO7SPoPs5i95iLTAtd+7eHuOVVmWJGl27QCNTul9vYA6YePe2Ye7JxFM24Vi9Bk7ZBmt+wu
+WT9gyv0amPaDhstNadUED5s0CUoBHegPuQMe9BgO+c8Hf1ft+n11UkQcrE7pWwc2KFI2pE/gtZBW
+SJ0w1gL4FniXWWFiTP4wG5oxe5VaqAP2LwnF1yQti0S1sPPqc8ERor8B71M8AUAXfdLabiyohYQI
+PEKuXcMBeJ67T/lS5c4FxAWO6zL0wmR2jdwRBq8fM4cV0PI3V7lRYCru17CzzGHzJwbhzda7shac
+XkNlAiVx8X3q5hG9rfuzF9ArbjSP4CJ4nqwf+r2g7Ffu0cA/EvieMLcCTjNHox4MYUWUhTdebigK
+iou54NF9kD+EjbIldVWdt+iTsGJOGD1cKZ7TqCvkkx0PAY+9WnMU/UeyzvXD3XB7twuprrVN8+zJ</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign" Location="https://hosted-login.tuakiri.ac.nz/hosting/otago.ac.nz/idp/profile/SAML2/POST-SimpleSign/SLO"/>
+      <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://hosted-login.tuakiri.ac.nz/hosting/otago.ac.nz/idp/profile/SAML2/POST/SLO"/>
+      <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://hosted-login.tuakiri.ac.nz/hosting/otago.ac.nz/idp/profile/SAML2/Redirect/SLO"/>
+      <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
+      <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+      <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" req-attr:supportsRequestedAttributes="true" Location="https://hosted-login.tuakiri.ac.nz/hosting/otago.ac.nz/idp/profile/SAML2/POST/SSO"/>
+      <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign" req-attr:supportsRequestedAttributes="true" Location="https://hosted-login.tuakiri.ac.nz/hosting/otago.ac.nz/idp/profile/SAML2/POST-SimpleSign/SSO"/>
+      <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" req-attr:supportsRequestedAttributes="true" Location="https://hosted-login.tuakiri.ac.nz/hosting/otago.ac.nz/idp/profile/SAML2/Redirect/SSO"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:1.3.6.1.4.1.27856.1.2.5" FriendlyName="auEduPersonSharedToken"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:2.5.4.3" FriendlyName="cn"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:2.16.840.1.113730.3.1.241" FriendlyName="displayName"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.1" FriendlyName="eduPersonAffiliation"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.11" FriendlyName="eduPersonAssurance"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.7" FriendlyName="eduPersonEntitlement"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.5" FriendlyName="eduPersonPrimaryAffiliation"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" FriendlyName="eduPersonPrincipalName"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.9" FriendlyName="eduPersonScopedAffiliation"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:2.5.4.42" FriendlyName="givenName"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:0.9.2342.19200300.100.1.3" FriendlyName="mail"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:2.5.4.10" FriendlyName="o"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oasis:names:tc:SAML:attribute:subject-id" FriendlyName="samlSubjectID"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:1.3.6.1.4.1.25178.1.2.9" FriendlyName="schacHomeOrganization"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:1.3.6.1.4.1.25178.1.2.10" FriendlyName="schacHomeOrganizationType"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oid:2.5.4.4" FriendlyName="sn"/>
+      <saml:Attribute NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" Name="urn:oasis:names:tc:SAML:attribute:pairwise-id" FriendlyName="samlPairwiseID"/>
+    </md:IDPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">otago.ac.nz</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">The University of Otago</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://www.otago.ac.nz/</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:Company>REANNZ</md:Company>
+      <md:GivenName>Tuakiri</md:GivenName>
+      <md:SurName>Support</md:SurName>
+      <md:EmailAddress>mailto:tuakiri@reannz.co.nz</md:EmailAddress>
+    </md:ContactPerson>
+    <md:ContactPerson contactType="administrative">
+      <md:Company>REANNZ</md:Company>
+      <md:GivenName>Tuakiri</md:GivenName>
+      <md:SurName>Support</md:SurName>
+      <md:EmailAddress>mailto:tuakiri@reannz.co.nz</md:EmailAddress>
+    </md:ContactPerson>
+    <md:ContactPerson contactType="other" remd:contactType="http://refeds.org/metadata/contactType/security">
+      <md:Company>REANNZ</md:Company>
+      <md:GivenName>Tuakiri</md:GivenName>
+      <md:SurName>Security</md:SurName>
+      <md:EmailAddress>mailto:security@reannz.co.nz</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+</OtagoIdPMetadataExtract>

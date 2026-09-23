@@ -1,0 +1,92 @@
+---
+name: University of Otago — Probed Response Examples
+description: >-
+  Index of the live responses captured from University of Otago surfaces on 2026-08-30. Every
+  file listed here is a verbatim capture of what the named URL actually returned to an
+  unauthenticated request — not a hand-written or model-generated sample. Where a file was
+  trimmed for size, the trimming is stated inside the file itself.
+url: https://raw.githubusercontent.com/api-evangelist/university-of-otago/refs/heads/main/examples/university-of-otago-examples.yml
+created: '2026-08-30'
+modified: '2026-08-30'
+generated: '2026-08-30'
+method: probed
+source: Live HTTP probes executed 2026-08-30.
+
+examples:
+  - file: examples/university-of-otago-wp-rest-root-response.json
+    aid: university-of-otago:ai-site-wp-rest
+    x-operator: institution
+    request: GET https://artificialintelligence.otago.ac.nz/wp-json/
+    status: 200
+    content_type: application/json; charset=UTF-8
+    bytes_returned: 200783
+    method: probed
+    trimmed: true
+    detail: >-
+      Live WordPress REST API discovery document. Site identity, namespaces, the empty
+      authentication array and the complete 144-route table are verbatim; per-route JSON
+      Schemas and _links were dropped to keep the file readable. Namespaces served:
+      oembed/1.0, wordfence/v1, wp/v2, wp-site-health/v1, wp-block-editor/v1, wp-abilities/v1.
+      111 of the 144 routes are under wp/v2.
+
+  - file: examples/university-of-otago-oai-pmh-identify-response.xml
+    aid: university-of-otago:our-archive-oai
+    x-operator: tenant
+    request: GET https://ourarchive.otago.ac.nz/view/oai/64OTAGO_INST/request?verb=Identify
+    status: 403
+    method: probed
+    detail: >-
+      The complete response body, unmodified. It is an OAI-PMH error envelope carrying
+      error_code 21 — the endpoint speaks the protocol but refuses unauthorised harvesting.
+      Kept because a refusal expressed in the standard's own vocabulary is the conformance
+      evidence; a fabricated Identify response would not be.
+
+  - file: examples/university-of-otago-saml-idp-metadata.xml
+    aid: university-of-otago:tuakiri-idp
+    x-operator: tenant
+    request: GET https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml
+    status: 200
+    method: probed
+    detail: >-
+      The EntityDescriptor for entityID https://idp.otago.ac.nz/idp/shibboleth, extracted
+      verbatim from the signed Tuakiri NZ Access Federation aggregate. DisplayName "The
+      University of Otago". Contains the six SAML 2.0 SSO/SLO endpoint bindings, all of which
+      point at hosted-login.tuakiri.ac.nz/hosting/otago.ac.nz — the evidence that the IdP is
+      REANNZ-hosted on Otago's behalf.
+
+  - file: examples/university-of-otago-blackboard-version-response.json
+    aid: university-of-otago:blackboard-learn
+    x-operator: tenant
+    request: GET https://blackboard.otago.ac.nz/learn/api/public/v1/system/version
+    status: 200
+    method: probed
+    detail: >-
+      The one Blackboard Learn REST endpoint on this tenancy that answers without credentials.
+      Reports Learn release 4000.21.0, build rel.28+435d029. Every data-bearing endpoint on the
+      same API returns 401.
+
+not_captured:
+  - url: https://blackboard.otago.ac.nz/.well-known/openid-configuration
+    status: 200
+    reason: soft_200
+    detail: >-
+      Returns HTTP 200 but the body is Blackboard's login.jsp HTML page, not an OIDC discovery
+      document. Deliberately NOT saved as an example and NOT used to claim LTI conformance.
+      Recorded here so the next run does not re-discover it as a find.
+  - url: https://ourarchive.otago.ac.nz/esploro/openapi
+    status: 200
+    reason: soft_200
+    detail: >-
+      Returns HTTP 200 but the body is the Esploro Angular single-page-application shell
+      (<title>Research Portal</title>, <base href="/esploro/">), served for any unmatched path
+      under /esploro/. It is not an OpenAPI definition. No OpenAPI exists for this surface and
+      none was generated.
+  - url: https://www.otago.ac.nz/
+    status: 403
+    reason: bot_blocked
+    detail: >-
+      Cloudflare returns 403 to scripted requests across the entire www.otago.ac.nz origin,
+      including /robots.txt, /sitemap.xml, /llms.txt and the policy collection. The site is
+      live in a browser. This blocked a sitemap crawl of the kind used to measure absence on
+      other institutions in this cohort, so the "no developer portal" finding here rests on
+      subdomain enumeration and search rather than on a full crawl.

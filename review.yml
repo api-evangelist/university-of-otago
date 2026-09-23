@@ -3,21 +3,157 @@ name: University of Otago
 description: University of Otago public developer/API footprint review for APIs.json cataloging.
 url: https://raw.githubusercontent.com/api-evangelist/university-of-otago/refs/heads/main/review.yml
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-08-30'
 reviews:
+  - date: '2026-08-30'
+    rating: 2
+    summary: >-
+      Re-reviewed under the university pipeline's operator axis. University of Otago has no
+      developer portal, no API reference and no open-data portal. Exactly ONE machine-readable
+      surface is both on Otago's domain and operated by Otago: the self-hosted WordPress REST API
+      behind artificialintelligence.otago.ac.nz, which returns a 144-route discovery document and
+      published content with no credential. The June 2026 review recorded OUR Archive as an Otago
+      surface on the strength of its hostname; DNS shows ourarchive.otago.ac.nz CNAMEs to
+      ap02.esploro.exlibrisgroup.com, so it is an Ex Libris Esploro TENANCY and is relabelled
+      accordingly, and its OAI-PMH endpoint now returns 403 (previously 200) while still carrying
+      OAI error_code 21. Three surfaces were added that the June review missed: a Blackboard Learn
+      tenancy, the Tuakiri SAML identity (where Otago owns the entityID and REANNZ operates the
+      IdP), and Otago's DataCite and Crossref registrations. Two soft-200s were caught and are
+      recorded as non-finds. Nothing was fabricated; every row below was probed directly.
+    endpoints:
+      - url: https://artificialintelligence.otago.ac.nz/wp-json/
+        status: 200
+        note: >-
+          THE ONE INSTITUTION-OPERATED SURFACE. Live WordPress REST API on Otago's own domain,
+          200,783 bytes, 144 routes across 6 namespaces, "authentication":[] — keyless read.
+      - url: https://artificialintelligence.otago.ac.nz/wp-json/wp/v2/pages
+        status: 200
+        note: Returns page objects anonymously, confirming the API serves data and not just an index.
+      - url: https://artificialintelligence.otago.ac.nz/
+        status: 200
+        note: Otago's AI guidance site; also the AIPolicy pointer. Live to scripted requests.
+      - url: https://blackboard.otago.ac.nz/learn/api/public/v1/system/version
+        status: 200
+        note: >-
+          Blackboard Learn tenancy (CNAME otago.blackboard.com). Keyless version endpoint returns
+          release 4000.21.0, build rel.28+435d029. New find; missed by the June review.
+      - url: https://blackboard.otago.ac.nz/learn/api/public/v1/courses
+        status: 401
+        note: >-
+          {"status":401,"message":"API request is not authenticated."} — a 401 not a 404, which is
+          the evidence the REST API exists and is gated. Same on /dataSources and /v3/courses.
+      - url: https://blackboard.otago.ac.nz/.well-known/openid-configuration
+        status: 200
+        note: >-
+          SOFT-200. Body is Blackboard's login.jsp HTML page, not an OIDC discovery document.
+          NO LTI conformance is claimed from it.
+      - url: https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml
+        status: 200
+        note: >-
+          Signed Tuakiri NZ Access Federation aggregate, 725,866 bytes, 82 entities. Contains a
+          full SAML 2.0 IDPSSODescriptor for entityID https://idp.otago.ac.nz/idp/shibboleth,
+          DisplayName "The University of Otago".
+      - url: https://hosted-login.tuakiri.ac.nz/hosting/otago.ac.nz/idp/profile/SAML2/Redirect/SSO
+        status: 500
+        note: >-
+          All six of Otago's advertised SSO/SLO bindings resolve here — REANNZ's Tuakiri Hosted
+          Login. 500 is the expected reply to a GET carrying no AuthnRequest, not a fault.
+      - url: https://api.datacite.org/providers/otagouni
+        status: 200
+        note: >-
+          DataCite provider "University of Otago", consortium_organization, rorId
+          https://ror.org/01jmxt844. Repository otagouni.snbodh (OUR Archive) holds 334 DOIs.
+      - url: https://api.crossref.org/members/4843
+        status: 200
+        note: >-
+          Crossref member "University of Otago Library", DOI prefix 10.11157, 2,537 DOIs
+          (412 current, 2,125 backfile).
+      - url: https://ourarchive.otago.ac.nz/
+        status: 200
+        note: >-
+          OUR Archive. CNAME -> ap02.esploro.exlibrisgroup.com — an Ex Libris Esploro TENANCY,
+          not Otago-operated infrastructure. This is the correction made in this review.
+      - url: https://ourarchive.otago.ac.nz/view/oai/64OTAGO_INST/request?verb=Identify
+        status: 403
+        note: >-
+          OAI-PMH deployed but unauthorised: returns OAI error_code 21 on Identify,
+          ListMetadataFormats, ListSets and ListRecords. Was 200 at the June review; now 403.
+      - url: https://ourarchive.otago.ac.nz/view/google/siteindex.xml
+        status: 200
+        note: Live sitemap index, lastmod 2026-08-30. The repository's open machine-readable surface.
+      - url: https://ourarchive.otago.ac.nz/esploro/openapi
+        status: 200
+        note: >-
+          SOFT-200. Returns the Esploro Angular SPA shell (<title>Research Portal</title>), served
+          for any unmatched path under /esploro/. Not an OpenAPI. No OpenAPI exists for Otago.
+      - url: https://ourarchive.otago.ac.nz/oai?verb=Identify
+        status: 404
+        note: Legacy DSpace OAI path, dead since the migration to Esploro.
+      - url: https://api.otago.ac.nz/
+        status: 503
+        note: >-
+          Otago-owned hostname behind Cloudflare; origin is an OpenShift router returning the
+          default "Application is not available" page on all 8 paths probed (/, /openapi.json,
+          /swagger, /docs, /api, /v1, /health, /.well-known/openapi). No application. Not catalogued.
+      - url: https://otago.figshare.com/
+        status: 202
+        note: >-
+          Empty body. Figshare answers 202 for both live tenancies and its wildcard, so this cannot
+          confirm a tenancy. NOT asserted, and no Figshare contract is stored in this repo.
+      - url: https://otago.instructure.com/
+        status: 404
+        note: Resolves to cluster1.instructure.com but 404s. Otago's LMS is Blackboard, not Canvas.
+      - url: https://www.otago.ac.nz/
+        status: 403
+        note: >-
+          Cloudflare 403 to all scripted requests across the whole origin, including /robots.txt,
+          /sitemap.xml and /llms.txt. Live in a browser — bot-blocked, not dead. This prevented the
+          sitemap crawl used to measure absence on other institutions in this cohort.
+      - url: https://ask.otago.ac.nz/knowledgebase/article/KA-10005970/en-us
+        status: 200
+        note: AskOtago "Responsible use of Generative AI" article. AIPolicy pointer.
+      - url: https://ask.otago.ac.nz/knowledgebase/article/KA-10002700/en-us
+        status: 200
+        note: AskOtago article documenting Tuakiri federated identity. Authentication pointer.
+      - url: https://otago.libguides.com/Generative_AI/policies
+        status: 200
+        note: Otago Library Generative AI policy guide (Springshare LibGuides tenancy). AIPolicy pointer.
+      - url: https://docs.tuakiri.ac.nz/
+        status: 200
+        note: Tuakiri federation technical documentation.
+      - url: https://library.otago.ac.nz/
+        status: 0
+        note: Resolves to 139.80.135.136 but does not complete a connection publicly. Not catalogued.
+      - url: https://hpc.otago.ac.nz/
+        status: 0
+        note: >-
+          Resolves via peweb.otago.ac.nz to 139.80.8.113 but does not answer on 443 publicly. A real
+          internal research-computing service, not a public surface. Not catalogued.
+      - url: https://login.otago.ac.nz/
+        status: 0
+        note: Resolves to 139.80.64.89 (its-cs-im.registry.otago.ac.nz); no public connection. Not catalogued.
+      - url: https://github.com/UniversityofOtago
+        status: 200
+        note: >-
+          Org exists (id 28741595) with ZERO public repositories and is not verifiably official.
+          Still not catalogued, same conclusion as the June review.
+      - url: https://www.linkedin.com/school/university-of-otago/
+        status: 999
+        note: Official LinkedIn school page; 999 is LinkedIn's standard anti-bot response.
   - date: '2026-06-03'
     rating: 2
     summary: >-
-      University of Otago has no dedicated public developer portal and no documented
-      public API program. The most concrete machine interface verified live is the
-      OUR Archive Esploro OAI-PMH endpoint, which resolves and returns valid OAI XML
-      but currently responds with error_code 21 (unauthorized / public harvesting not
-      enabled). Identity is handled via the Tuakiri NZ Access Federation (SAML 2.0 /
-      Shibboleth), which is federation infrastructure rather than a self-service API.
-      The main website returns 403 to automated bots but is a valid live site. A GitHub
-      org named "UniversityofOtago" exists but has zero public repos and is not verifiably
-      official, so it is not catalogued. No endpoints were fabricated; everything below
-      was probed directly.
+      SUPERSEDED by the 2026-08-30 review, which corrected the operator attribution of OUR Archive
+      from institution to tenant and added three surfaces this review missed. Retained for history.
+      University of Otago has no dedicated public developer portal and no documented public API
+      program. The most concrete machine interface verified live is the OUR Archive Esploro
+      OAI-PMH endpoint, which resolves and returns valid OAI XML but currently responds with
+      error_code 21 (unauthorized / public harvesting not enabled). Identity is handled via the
+      Tuakiri NZ Access Federation (SAML 2.0 / Shibboleth), which is federation infrastructure
+      rather than a self-service API. The main website returns 403 to automated bots but is a
+      valid live site. A GitHub org named "UniversityofOtago" exists but has zero public repos and
+      is not verifiably official, so it is not catalogued. No endpoints were fabricated;
+      everything was probed directly.
     endpoints:
       - url: https://www.otago.ac.nz/
         status: 403
@@ -27,7 +163,9 @@ reviews:
         note: OUR Archive research repository home (Ex Libris / Clarivate Esploro).
       - url: https://ourarchive.otago.ac.nz/view/oai/64OTAGO_INST/request?verb=Identify
         status: 200
-        note: Esploro OAI-PMH endpoint resolves but returns OAI error_code 21 (unauthorized / harvesting not enabled).
+        note: >-
+          Esploro OAI-PMH endpoint resolves but returns OAI error_code 21. NOTE — re-probed
+          2026-08-30 and now returns 403, not 200.
       - url: https://ourarchive.otago.ac.nz/esploro/?institution=64OTAGO_INST
         status: 200
         note: OUR Archive Esploro research portal (human UI).
@@ -36,10 +174,10 @@ reviews:
         note: AskOtago service portal; documents Tuakiri federated identity for staff/students.
       - url: https://www.linkedin.com/school/university-of-otago/
         status: 999
-        note: Official LinkedIn school page; 999 is LinkedIn's standard anti-bot response, page is valid.
+        note: Official LinkedIn school page; 999 is LinkedIn's standard anti-bot response.
       - url: https://github.com/UniversityofOtago
         status: 200
-        note: GitHub org with this name exists but has no public repos and is not verifiably official; not catalogued.
+        note: GitHub org with this name exists but has no public repos; not catalogued.
       - url: https://ourarchive.otago.ac.nz/oai?verb=Identify
         status: 404
         note: Legacy DSpace OAI path no longer valid after migration to Esploro.

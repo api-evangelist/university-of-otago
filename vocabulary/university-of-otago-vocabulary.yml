@@ -1,0 +1,142 @@
+---
+name: University of Otago — Surface and Operator Vocabulary
+description: >-
+  The terms needed to read this repository correctly: the institution's own identifiers, the
+  hostnames that carry its name, and which of those it actually operates. Written because the
+  June 2026 profile of this cohort treated "carries the institution's name" and "is operated by
+  the institution" as the same fact, and they are not.
+url: https://raw.githubusercontent.com/api-evangelist/university-of-otago/refs/heads/main/vocabulary/university-of-otago-vocabulary.yml
+created: '2026-08-30'
+modified: '2026-08-30'
+generated: '2026-08-30'
+method: derived
+source: >-
+  Derived from the live probes recorded in examples/university-of-otago-examples.yml and
+  conformance/university-of-otago-education-standards.yml, plus DNS resolution of every
+  otago.ac.nz hostname listed.
+
+identifiers:
+  - term: ROR ID
+    value: https://ror.org/01jmxt844
+    detail: Research Organization Registry identifier for the University of Otago. Established 1869.
+  - term: DataCite provider
+    value: otagouni
+    detail: memberType consortium_organization, organizationType academicInstitution, country NZ.
+  - term: DataCite repository (live)
+    value: otagouni.snbodh
+    detail: '"OUR Archive", https://ourarchive.otago.ac.nz/, 334 DOIs registered.'
+  - term: DataCite repository (retired)
+    value: otagouni.qmyzok
+    detail: '"University of Otago Open Journals", 0 DOIs; its host openjournals.otago.ac.nz is NXDOMAIN.'
+  - term: Crossref member
+    value: '4843'
+    detail: '"University of Otago Library", DOI prefix 10.11157, 2,537 DOIs (412 current, 2,125 backfile).'
+  - term: SAML entityID
+    value: https://idp.otago.ac.nz/idp/shibboleth
+    detail: >-
+      Otago's identity in the Tuakiri NZ Access Federation. The hostname in the entityID does
+      NOT resolve in DNS — an entityID is a name, not an address, and reading it as a live
+      Otago-operated host would be an error.
+  - term: Esploro institution code
+    value: 64OTAGO_INST
+    detail: Ex Libris tenant code appearing in every OUR Archive Esploro and OAI-PMH path.
+  - term: Te Reo Māori name
+    value: Te Whare Wānanga o Ōtākou
+    detail: The institution's Māori name, used on its own AI guidance site.
+
+operator_axis:
+  institution:
+    definition: Otago's own registrable domain AND Otago's own operation.
+    members:
+      - host: artificialintelligence.otago.ac.nz
+        surface: WordPress REST API (144 routes) + RSS feed
+        detail: >-
+          Self-hosted WordPress on Otago's domain behind Cloudflare. WordPress is open-source
+          software Otago deploys, not a service it subscribes to, so both the host and the
+          operation are Otago's. The CONTRACT is still WordPress's, which is why no OpenAPI is
+          generated for it here.
+  tenant:
+    definition: >-
+      Otago's data, name and institutional decision, running on a vendor's platform and under a
+      vendor's contract. A real institutional fact; not Otago's engineering.
+    members:
+      - host: ourarchive.otago.ac.nz
+        vendor: Ex Libris / Clarivate Esploro
+        proof: CNAME -> ap02.esploro.exlibrisgroup.com (216.147.221.101)
+        detail: >-
+          THE CORRECTION IN THIS RUN. The hostname sits under otago.ac.nz, so a hostname-only
+          verdict reads it as institution-operated — and that is what the audit returned. DNS
+          resolution shows it is an Ex Libris Esploro tenancy, the same shape as
+          scholarbank.nus.edu.sg. Relabelled institution -> tenant.
+      - host: blackboard.otago.ac.nz
+        vendor: Anthology / Blackboard Learn
+        proof: CNAME -> otago.blackboard.com -> AWS ap-southeast-2
+        detail: Learn release 4000.21.0. Newly recorded in this run; the June profile missed it.
+      - host: hosted-login.tuakiri.ac.nz/hosting/otago.ac.nz
+        vendor: REANNZ (Tuakiri Hosted Login)
+        proof: All six SSO/SLO bindings in Otago's federation metadata resolve here.
+        detail: >-
+          Otago holds the federation identity; REANNZ runs the IdP software. The June profile
+          recorded the federation but not who operates the endpoint.
+      - host: api.datacite.org / api.crossref.org
+        vendor: DataCite / Crossref
+        detail: Otago's memberships and deposits on registries Otago does not run.
+  vendor:
+    definition: A generic vendor host every customer shares. Never saved under this slug.
+    members:
+      - host: otago.primo.exlibrisgroup.com
+        detail: Ex Libris Primo discovery, on Ex Libris's own domain. Not recorded.
+  rejected:
+    definition: Looked like an Otago surface and is not one. Listed so the next run does not re-find them.
+    members:
+      - host: otago.figshare.com
+        verdict: unverifiable
+        detail: >-
+          Resolves to figshare.com and answers HTTP 202 with an EMPTY body. Figshare answers
+          this way for its wildcard as well as for real tenancies, so this probe cannot
+          distinguish a live Otago tenancy from a catch-all. No Figshare contract is stored
+          here and no Figshare tenancy is asserted. This is the exact host family that was
+          attributed to 25 institutions in the June 2026 cohort.
+      - host: otago.instructure.com
+        verdict: not_a_tenant
+        detail: Resolves to cluster1.instructure.com but returns 404. Otago's LMS is Blackboard, not Canvas.
+      - host: api.otago.ac.nz
+        verdict: no_application
+        detail: >-
+          Otago-owned hostname behind Cloudflare whose origin is an OpenShift router returning
+          the default "Application is not available" 503 page on every path probed. An API
+          gateway hostname with no reachable application is not a surface.
+      - host: openjournals.otago.ac.nz
+        verdict: retired
+        detail: NXDOMAIN. Its DataCite registration outlived the service and holds 0 DOIs.
+      - host: library.otago.ac.nz
+        verdict: unreachable
+        detail: Resolves to 139.80.135.136 but does not complete a connection from a public network.
+      - host: hpc.otago.ac.nz
+        verdict: unreachable
+        detail: >-
+          Resolves via peweb.otago.ac.nz to 139.80.8.113 but does not answer on 443 publicly.
+          A real internal research-computing service, not a public surface.
+      - host: github.com/UniversityofOtago
+        verdict: empty
+        detail: >-
+          The org exists (id 28741595) and has ZERO public repositories, and is not verifiably
+          official. Not recorded as a GitHubOrganization pointer.
+
+failure_modes_observed:
+  - term: soft-200
+    detail: >-
+      An HTTP 200 whose body is not the document the path implies. Two on this institution:
+      /esploro/openapi returns the Esploro SPA shell, and Blackboard's
+      /.well-known/openid-configuration returns a login page. Both would have produced a false
+      find had only the status code been read.
+  - term: bot_blocked
+    detail: >-
+      www.otago.ac.nz returns 403 to every scripted request including robots.txt and
+      sitemap.xml. This is a finding about the crawler, not about the institution: the site is
+      live. Pointers into www.otago.ac.nz are therefore live-but-unverifiable from here, and
+      pointers that return 200 were preferred wherever an equivalent existed.
+  - term: entityID-is-not-a-host
+    detail: >-
+      idp.otago.ac.nz appears in Otago's SAML entityID and does not exist in DNS. Treating a
+      SAML entityID as a callable endpoint would invent a surface.
