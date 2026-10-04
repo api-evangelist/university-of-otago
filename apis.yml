@@ -180,48 +180,20 @@ x-coverage:
     - url: https://library.otago.ac.nz/
       status: 0
 apis:
-  - aid: university-of-otago:ai-site-wp-rest
-    name: Artificial Intelligence at Otago — WordPress REST API
-    x-operator: institution
-    description: >-
-      The University's AI guidance site runs on WordPress that Otago self-hosts on its own domain
-      behind Cloudflare, and it exposes the full WordPress REST API without credentials. Confirmed
-      live 2026-08-30: /wp-json/ returns a 200,783-byte discovery document naming the site
-      "Artificial Intelligence at the University of Otago", declaring six namespaces —
-      oembed/1.0, wordfence/v1, wp/v2, wp-site-health/v1, wp-block-editor/v1, wp-abilities/v1 —
-      and 144 routes, 111 of them under wp/v2, with an EMPTY "authentication" array.
-      /wp-json/wp/v2/pages returns page objects anonymously, and /feed/ serves RSS. This is the
-      only machine-readable surface in this repo that is on Otago's domain, operated by Otago,
-      and callable without a credential. WordPress is open-source software Otago deploys rather
-      than a service it subscribes to, so the host and the operation are both Otago's — but the
-      CONTRACT is the WordPress project's and is shipped identically by millions of sites, so no
-      Otago-specific OpenAPI is published for it and none is generated here. What is stored is
-      the live route table as probed.
-    humanURL: https://artificialintelligence.otago.ac.nz/
-    baseURL: https://artificialintelligence.otago.ac.nz/wp-json/
+  - aid: university-of-otago:artificialintelligence-otago-ac-nz-website-wordpress-rest
+    name: University of Otago Website (WordPress REST)
+    description: 'The public WordPress REST API (wp-json) of the University of Otago website at artificialintelligence.otago.ac.nz:
+      the route index of the site''s content management system, catalogued as one site surface rather than
+      as separate APIs.'
+    baseURL: https://artificialintelligence.otago.ac.nz/wp-json
     tags:
-    - Content
     - WordPress
-    - REST
-    - AI Policy
-    - Keyless
-    - Institution-Operated
-    tags_raw:
-    - Content
-    - WordPress
-    - REST
-    - AI Policy
-    - Keyless
-    - Institution Operated
+    x-surface: platform-generated
     properties:
-      - type: Documentation
-        url: https://developer.wordpress.org/rest-api/
-      - type: BaseURL
-        url: https://artificialintelligence.otago.ac.nz/wp-json/
-      - type: Examples
-        url: examples/university-of-otago-wp-rest-root-response.json
-      - type: Authentication
-        url: authentication/university-of-otago-authentication.yml
+    - type: Documentation
+      url: https://artificialintelligence.otago.ac.nz/wp-json
+    x-platform: wordpress
+    x-platform-surface: rest
   - aid: university-of-otago:our-archive-oai
     name: OUR Archive OAI-PMH Metadata — Ex Libris Esploro tenancy
     x-operator: tenant
